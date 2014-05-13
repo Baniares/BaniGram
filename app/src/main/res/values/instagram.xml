@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="client_id">d3a454f63bc34720a4b8ed4d52cde53c</string>
+    <string name="client_secret">8f92f8dc05b94fc69d5f3756ab346fa6</string>
+    <string name="client_callback_url">https://www.facebook.com/baniaresu</string>
+    <string name="popular">https://api.instagram.com/v1/media/popular?client_id=d3a454f63bc34720a4b8ed4d52cde53c</string>
+    <string name="search_begin">https://api.instagram.com/v1/tags/</string>
+    <string name="search_end">/media/recent?client_id=d3a454f63bc34720a4b8ed4d52cde53c</string>
+
+</resources>

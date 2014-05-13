@@ -6,5 +6,16 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="action_settings">Settings</string>
+    <string name="rowDescriptionText">Description</string>
+    <string name="rowUserText">User</string>
+    <string name="rowTimeText">Time</string>
+    <string name="rowLikesText">Likes</string>
+    <string name="title_activity_image_viewer">ImageViewer</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">Banigram</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_popular_fragment">Popular</string>
+    <string name="title_activity_android_media_fragment">Android</string>
+    <string name="title_activity_ios_media_fragment">IosMediaFragment</string>
 
 </resources>

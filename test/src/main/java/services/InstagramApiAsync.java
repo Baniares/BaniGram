@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,9 +20,6 @@ import models.Media;
 import models.User;
 import models.Video;
 
-/**
- * Created by Baniares on 4/28/14.
- */
 public class InstagramApiAsync extends AsyncTask<String,Void,ArrayList<Media>> {
     private OnInstagramTaskComplited mListener;
 
@@ -59,49 +55,37 @@ public class InstagramApiAsync extends AsyncTask<String,Void,ArrayList<Media>> {
         return medias;
     }
 
-
     private Media getMediaFromJsonObject(JSONObject jsonObject) throws JSONException {
         String type = jsonObject.getString(Media.TYPE);
-        if(type.equals(Media.IMAGE)){
-            Image media = new Image();
-            media.setCreatedTime(jsonObject.getLong(Media.CREATED_TIME));
-            media.setLinkUrl(jsonObject.getString(Media.LINK));
-            media.setLikesCount(jsonObject.getJSONObject(Media.LIKES_OBJECT).
-                    getLong(Media.LIKES_COUNT));
-            media.setLowResolutionImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
-                    getJSONObject(Media.LOW_RESOLUTION).getString(Media.URL));
-            media.setThumbnailImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
-                    getJSONObject(Media.THUMBNAIL).getString(Media.URL));
-            media.setStandardResolutionImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
-                    getJSONObject(Media.STANDARD_RESOLUTION).getString(Media.URL));
-            media.setTags(getTagsArray(jsonObject.getJSONArray(Media.TAGS_OBJECT)));
-            media.setDescription(jsonObject.getJSONObject(Media.CAPTION_OBJECT).
-                    getString(Media.CAPTION_TEXT));
-            media.setUser(getUserFromJsonObject(jsonObject.getJSONObject(Media.USER_OBJECT)));
-            return media;
-        }else if(type.equals(Media.VIDEO)){
-            Video media = new Video();
-            media.setCreatedTime(jsonObject.getLong(Media.CREATED_TIME));
-            media.setLinkUrl(jsonObject.getString(Media.LINK));
-            media.setLikesCount(jsonObject.getJSONObject(Media.LIKES_OBJECT).
-                    getLong(Media.LIKES_COUNT));
-            media.setLowResolutionImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
-                    getJSONObject(Media.LOW_RESOLUTION).getString(Media.URL));
-            media.setThumbnailImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
-                    getJSONObject(Media.THUMBNAIL).getString(Media.URL));
-            media.setStandardResolutionImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
-                    getJSONObject(Media.STANDARD_RESOLUTION).getString(Media.URL));
-            media.setTags(getTagsArray(jsonObject.getJSONArray(Media.TAGS_OBJECT)));
-            media.setDescription(jsonObject.getJSONObject(Media.CAPTION_OBJECT).
-                    getString(Media.CAPTION_TEXT));
-            media.setUser(getUserFromJsonObject(jsonObject.getJSONObject(Media.USER_OBJECT)));
-            media.setLowResolutionVideoUrl(jsonObject.getJSONObject(Media.VIDEOS_OBJECT).
+        return createMediaFromJsonObject(jsonObject, type);
+    }
+
+    private Media createMediaFromJsonObject(JSONObject jsonObject, String type) throws JSONException {
+        Media media = Media.IMAGE.equals(type) ? new Image() : new Video();
+
+        media.setCreatedTime(jsonObject.getLong(Media.CREATED_TIME));
+        media.setLinkUrl(jsonObject.getString(Media.LINK));
+        media.setLikesCount(jsonObject.getJSONObject(Media.LIKES_OBJECT).
+                getLong(Media.LIKES_COUNT));
+        media.setLowResolutionImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
+                getJSONObject(Media.LOW_RESOLUTION).getString(Media.URL));
+        media.setThumbnailImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
+                getJSONObject(Media.THUMBNAIL).getString(Media.URL));
+        media.setStandardResolutionImageUrl(jsonObject.getJSONObject(Media.IMAGES_OBJECT).
+                getJSONObject(Media.STANDARD_RESOLUTION).getString(Media.URL));
+        media.setTags(getTagsArray(jsonObject.getJSONArray(Media.TAGS_OBJECT)));
+        media.setDescription(jsonObject.getJSONObject(Media.CAPTION_OBJECT).
+                getString(Media.CAPTION_TEXT));
+        media.setUser(getUserFromJsonObject(jsonObject.getJSONObject(Media.USER_OBJECT)));
+
+        if( media instanceof  Video){
+            ((Video)media).setLowResolutionVideoUrl(jsonObject.getJSONObject(Media.VIDEOS_OBJECT).
                     getString(Media.LOW_RESOLUTION));
-            media.setStandardResolutionImageUrl(jsonObject.getJSONObject(Media.VIDEOS_OBJECT).
+            ((Video)media).setStandardResolutionVideoUrl(jsonObject.getJSONObject(Media.VIDEOS_OBJECT).
                     getString(Media.STANDARD_RESOLUTION));
-            return media;
         }
-        return null;
+
+        return media;
     }
 
     private JSONArray jsonArrayFromUrl(URL url) throws IOException, JSONException {

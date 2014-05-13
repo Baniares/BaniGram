@@ -46,7 +46,7 @@ public class Video extends Media {
         mLowResolutionVideoUrl = lowResolutionVideoUrl;
     }
 
-    public String getStandardResolutionVideoUrl() {
+    public String getStandardResolutionUrl() {
         return mStandardResolutionVideoUrl;
     }
 
